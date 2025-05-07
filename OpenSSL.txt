@@ -1,0 +1,153 @@
+
+C:\laragon\www
+λ cd C:\laragon\etc\ssl
+
+C:\laragon\etc\ssl
+λ openssl genrsa -out server.key 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.........+++++
+................................................................................................................+++++
+e is 65537 (0x010001)
+
+C:\laragon\etc\ssl
+λ openssl req -new -key server.key -out server.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:Maharashtra
+Locality Name (eg, city) []:Pune
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Sanjivani COE
+Organizational Unit Name (eg, section) []:IT Department
+Common Name (e.g. server FQDN or YOUR name) []:localhost
+Email Address []:atharvabhavar2223_it@sanjivanicoe.org.in
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:atharva@24
+An optional company name []:sanjivani
+
+C:\laragon\etc\ssl
+λ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+Signature ok
+subject=C = IN, ST = Maharashtra, L = Pune, O = Sanjivani COE, OU = IT Department, CN = localhost, emailAddress = atharvabhavar2223_it@sanjivanicoe.org.in
+Getting Private key
+
+C:\laragon\etc\ssl
+λ C:\laragon\bin\apache\httpd-2.4.54-win64-VS16\conf\extra\httpd-ssl.conf
+
+C:\laragon\etc\ssl
+λ Include conf/extra/httpd-ssl.conf
+'Include' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\laragon\etc\ssl
+λ curl -vk https://localhost
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: C=IN; ST=Maharashtra; L=Pune; O=Sanjivani COE; OU=IT Department; CN=localhost; emailAddress=atharvabhavar2223_it@sanjivanicoe.org.in
+*  start date: Apr 10 07:17:26 2025 GMT
+*  expire date: Apr 10 07:17:26 2026 GMT
+*  issuer: C=IN; ST=Maharashtra; L=Pune; O=Sanjivani COE; OU=IT Department; CN=localhost; emailAddress=atharvabhavar2223_it@sanjivanicoe.org.in
+*  SSL certificate verify result: self signed certificate (18), continuing anyway.
+> GET / HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.63.0
+> Accept: */*
+>
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* old SSL session ID is stale, removing
+< HTTP/1.1 200 OK
+< Date: Thu, 10 Apr 2025 07:24:31 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.1.10
+< X-Powered-By: PHP/8.1.10
+< Content-Length: 1765
+< Content-Type: text/html; charset=UTF-8
+<
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laragon</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Karla:400" rel="stylesheet" type="text/css">
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                display: table;
+                font-weight: 100;
+                font-family: 'Karla';
+            }
+
+            .container {
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            .content {
+                text-align: center;
+                display: inline-block;
+            }
+
+            .title {
+                font-size: 96px;
+            }
+
+            .opt {
+                margin-top: 30px;
+            }
+
+            .opt a {
+              text-decoration: none;
+              font-size: 150%;
+            }
+
+            a:hover {
+              color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="content">
+                <div class="title" title="Laragon">Laragon</div>
+
+                <div class="info"><br />
+                      Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.1.10<br />
+                      PHP version: 8.1.10   <span><a title="phpinfo()" href="/?q=info">info</a></span><br />
+                      Document Root: C:/laragon/www<br />
+
+                </div>
+                <div class="opt">
+                  <div><a title="Getting Started" href="https://laragon.org/docs">Getting Started</a></div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>* Connection #0 to host localhost left intact
